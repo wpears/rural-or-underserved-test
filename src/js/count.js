@@ -41,7 +41,7 @@ module.exports = function() {
         var theCSV = generateCSV();
         var blob = new Blob([theCSV], {type: 'text/csv;charset=utf-8,'});
         var blobURL = URL.createObjectURL(blob);
-        link.setAttribute('href', blobURL);
+        link.attr('href', blobURL);
 
         $('#spinner').addClass('hide');
         link.removeClass('hide');
