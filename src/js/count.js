@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var detectIE = require('./detectIE.js');
 var generateCSV = require('./generateCSV.js');
 
 module.exports = function() {
@@ -38,10 +39,13 @@ module.exports = function() {
       // hide spinner
       if ($('#totalCnt').text() === $('#addressCount').text()) {
         var link = $('#download');
-        var theCSV = generateCSV();
-        var blob = new Blob([theCSV], {type: 'text/csv;charset=utf-8,'});
-        var blobURL = URL.createObjectURL(blob);
-        link.attr('href', blobURL);
+
+        if(!detectIE()){
+          var theCSV = generateCSV();
+          var blob = new Blob([theCSV], {type: 'text/csv;charset=utf-8,'});
+          var blobURL = URL.createObjectURL(blob);
+          link.attr('href', blobURL);
+        }
 
         $('#spinner').addClass('hide');
         link.removeClass('hide');
