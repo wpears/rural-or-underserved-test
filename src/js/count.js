@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var generateCSV = require('./generateCSV.js');
 
 module.exports = function() {
     var counters = {};
@@ -36,7 +37,15 @@ module.exports = function() {
 
       // hide spinner
       if ($('#totalCnt').text() === $('#addressCount').text()) {
+        var link = $('#download');
+        var theCSV = generateCSV();
+        var blob = new Blob([theCSV], {type: 'text/csv;charset=utf-8,'});
+        var blobURL = URL.createObjectURL(blob);
+        link.setAttribute('href', blobURL);
+
         $('#spinner').addClass('hide');
+        link.removeClass('hide');
+        $('#print').removeClass('hide');
       }
     }
 

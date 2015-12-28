@@ -72,44 +72,25 @@ $(function(){
     // other browser
     return false;
   }
-
+/*
   $('#download').click(function(e) {
     e.preventDefault();
     var theCSV = generateCSV();
+    var blob = new Blob([theCSV], {type: 'text/csv;charset=utf-8,'});
     if (detectIE() === false) {
-      window.open('data:text/csv;charset=utf-8,' + encodeURIComponent(theCSV));
+      var element = document.createElement('a');
+      var blobURL = window.URL.createObjectURL(blob);
+      element.setAttribute('download', 'rural-or-underserved.csv');
+      element.setAttribute('href', blobURL);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);  window.open('data:text/csv;charset=utf-8,' + encodeURIComponent(theCSV));
     } else {
         var blob = new Blob([theCSV], {type: 'text/csv;charset=utf-8,'});
         navigator.msSaveOrOpenBlob(blob, 'rural-or-underserved.csv');
     }
   });
+*/
 
-  function generateCSV() {
-    var theCSV = '';
-    var date = new Date();
-    var day = date.getDate();
-    var monthIndex = date.getMonth();
-    var year = date.getFullYear();
-
-    theCSV = 'Address entered, Address identified, County, Rural or underserved?, Date processed' + '\n';
-
-    // loop through each row
-    $('.table tbody tr td').each(function () {
-      // add a data row
-      if (!$(this).parents('.js-table').hasClass('hide')) { // if table isn't hidden (!)
-        if(!$(this).attr('colspan')) { // map cols have colspan and we don't want those
-          var thisString = $(this).text().replace('Show map', '');
-          theCSV = theCSV + ('"' + thisString + '"'); // put the content in first
-
-          if ($(this).is(':last-child')) {
-            theCSV = theCSV + ',' + monthIndex + '/' + day + '/' + year + '\n';
-          } else {
-            theCSV = theCSV + ',';
-          }
-        }
-      }
-    });
-
-    return theCSV;
-  }
 });
